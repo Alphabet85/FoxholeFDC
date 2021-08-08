@@ -55,14 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\AddArtilleryViewModel.cs" />
-    <Compile Include="ViewModels\AddFOViewModel.cs" />
-    <Compile Include="Views\AddArtilleryView.xaml.cs">
-      <DependentUpon>AddArtilleryView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AddFOView.xaml.cs">
-      <DependentUpon>AddFOView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Resources\Converters\Converters.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -79,15 +72,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\Converters\ConverterDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\MainResourceDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AddArtilleryView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AddFOView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -96,8 +85,7 @@
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Models\ArtilleryModel.cs" />
     <Compile Include="Models\Enums.cs" />
-    <Compile Include="Models\TargetInformation.cs" />
-    <Compile Include="Models\ForwardObserverModel.cs" />
+    <Compile Include="Models\TargetInformationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -124,7 +112,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\Converters\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

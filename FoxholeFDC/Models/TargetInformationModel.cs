@@ -1,6 +1,7 @@
 ﻿namespace FoxholeFDC.Models
 {
-    public class TargetInformation
+    public class TargetInformationModel
+
     {
         public string Name { get; set; }
         public decimal Direction { get; set; }

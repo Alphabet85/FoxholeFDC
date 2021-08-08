@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FoxholeFDC"
         DataContext="{StaticResource MainWindowViewModel}"
         mc:Ignorable="d"
         Title="Foxhole FDC - By Alphabet" 
@@ -15,53 +14,343 @@
     <Grid Background="#393532">
         <Grid Margin="20">
             <Grid.RowDefinitions>
-                <RowDefinition/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
+            <TextBlock Grid.Row="0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       Margin="0,10,0,0"
+                       Text="Foxhole FDC"
+                       Foreground="White"
+                       FontSize="20"
+                       FontWeight="Bold"/>
+
+            <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
+                <Grid Grid.Row="0"
+                      FocusManager.FocusedElement="{Binding ElementName=FixedPointDirection_TextBox}">
+                    <Grid Margin="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
 
-                <ListBox Grid.Row="3"
-                         Background="#393532"
-                         ItemsSource="{Binding ListOfArtillery}"
-                         HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"/>
-            </Grid>
-        
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <!-- Labels -->
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="1"
+                                   Text="Direction"
+                                   Foreground="White"/>
 
-                <Button Grid.Column="0"
-                        Content="Add FO"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        Margin="10"
-                        Padding="10,3"
-                        Cursor="Hand"
-                        Command="{Binding AddFOCommand}"/>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="2"
+                                   Text="Distance"
+                                   Foreground="White"/>
 
-                <Button Grid.Column="1"
-                        Content="Add Artillery"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        Margin="10"
-                        Padding="10,3"
-                        Cursor="Hand"
-                        Command="{Binding AddArtilleryCommand}"/>
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="0"
+                                   Text="Forward Observer's Fixed Point"
+                                   Foreground="White"/>
+
+                        <!-- TextBox Fields -->
+                        <TextBox x:Name="FixedPointDirection_TextBox"
+                                 Grid.Row="1"
+                                 Grid.Column="1"
+                                 Text="{Binding FixedPointDirection}"
+                                 GotFocus="FixedPointDirection_TextBox_GotFocus"
+                                 PreviewTextInput="FixedPointDirection_TextBox_PreviewTextInput"
+                                 TextChanged="FixedPointDirection_TextBox_TextChanged"/>
+
+                        <TextBox x:Name="FixedPointDistance_TextBox"
+                                 Grid.Row="1"
+                                 Grid.Column="2"
+                                 Text="{Binding FixedPointDistance}"
+                                 GotFocus="FixedPointDistance_TextBox_GotFocus"
+                                 PreviewTextInput="FixedPointDistance_TextBox_PreviewTextInput"
+                                 TextChanged="FixedPointDistance_TextBox_TextChanged"/>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox Grid.Column="0"
+                             Background="#393532"
+                             Focusable="False"
+                             ItemsSource="{Binding ListOfArtillery}"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"/>
+
+                    <StackPanel Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center">
+                        <Button Content="Add Artillery"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Width="150"
+                                Margin="10,0,0,0"
+                                Padding="10,3"
+                                Cursor="Hand"
+                                Focusable="False"
+                                Command="{Binding OpenAddArtilleryCommand}"/>
+
+                        <Button Content="Delete Artillery"
+                                Width="150"
+                                Margin="10,0,0,0"
+                                Padding="10,3"
+                                Cursor="Hand"
+                                Focusable="False"
+                                Command="{Binding DeleteArtilleryListCommand}"/>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox Grid.Column="0"
+                             Background="#393532"
+                             Focusable="False"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             ItemsSource="{Binding ListOfTargets}"/>
+
+                    <StackPanel Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center">
+                        <Button Content="Add Target"
+                                Width="150"
+                                Margin="10,0,0,0"
+                                Padding="10,3"
+                                Cursor="Hand"
+                                Focusable="False"
+                                Command="{Binding OpenAddTargetCommand}"/>
+
+                        <Button Content="Delete Targets"
+                                Width="150"
+                                Margin="10,0,0,0"
+                                Padding="10,3"
+                                Cursor="Hand"
+                                Focusable="False"
+                                Command="{Binding DeleteTargetListCommand}"/>
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Grid>
 
-        <ContentControl HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        Content="{Binding RunningViewModel}"/>
+        <!-- Add Artillery Window -->
+        <Grid Visibility="{Binding IsAddArtilleryOpen, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}"
+              Background="#B3000000">
+            <Border HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="#393532">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,0,0,10"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Text="Add Artillery"
+                                   Foreground="White"/>
+                        
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="0"
+                                   Text="Name"
+                                   Foreground="White"/>
+                
+                        <TextBlock Grid.Row="2"
+                                   Grid.Column="0"
+                                   Text="FP Direction"
+                                   Foreground="White"/>
+                
+                        <TextBlock Grid.Row="3"
+                                   Grid.Column="0"
+                                   Text="FP Distance"
+                                   Foreground="White"/>
+
+                        <TextBox x:Name="ArtilleryModelName_TextBox"
+                                 Grid.Row="1"
+                                 Grid.Column="1"
+                                 Text="{Binding ArtilleryModel.Name}"
+                                 TextChanged="ArtilleryModelName_TextBox_TextChanged"
+                                 GotFocus="ArtilleryModelName_TextBox_GotFocus"/>
+
+                        <TextBox x:Name="ArtilleryModelDirection_TextBox"
+                                 Grid.Row="2"
+                                 Grid.Column="1"
+                                 Text="{Binding ArtilleryModel.FixedPointDirection}"
+                                 PreviewTextInput="ArtilleryModelDirection_TextBox_PreviewTextInput"
+                                 TextChanged="ArtilleryModelDirection_TextBox_TextChanged"
+                                 GotFocus="ArtilleryModelDirection_TextBox_GotFocus"/>
+
+                        <TextBox x:Name="ArtilleryModelDistance_TextBox"
+                                 Grid.Row="3"
+                                 Grid.Column="1"
+                                 Text="{Binding ArtilleryModel.FixedPointDistance}"
+                                 PreviewTextInput="ArtilleryModelDistance_TextBox_PreviewTextInput"
+                                 TextChanged="ArtilleryModelDistance_TextBox_TextChanged"
+                                 GotFocus="ArtilleryModelDistance_TextBox_GotFocus"/>
+                    </Grid>
+            
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0"
+                                Content="Cancel"
+                                Width="100"
+                                Padding="10,3"
+                                Margin="0,10,5,0"
+                                Cursor="Hand"
+                                Command="{Binding ArtilleryCommand}"
+                                CommandParameter="Cancel"/>
+
+                        <Button x:Name="AddArtillery_Button"
+                                Grid.Column="1"
+                                Content="Add"
+                                Width="100"
+                                Padding="10,3"
+                                Margin="5,10,0,0"
+                                Cursor="Hand"
+                                Command="{Binding ArtilleryCommand}"
+                                CommandParameter="Add"/>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Add Target Window -->
+        <Grid Visibility="{Binding IsAddTargetOpen, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}"
+              Background="#B3000000">
+            <Border HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="#393532">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,0,0,10"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Text="Add Target"
+                                   Foreground="White"/>
+                        
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="0"
+                                   Text="Name"
+                                   Foreground="White"/>
+
+                        <TextBlock Grid.Row="2"
+                                   Grid.Column="0"
+                                   Text="FP Direction"
+                                   Foreground="White"/>
+
+                        <TextBlock Grid.Row="3"
+                                   Grid.Column="0"
+                                   Text="FP Distance"
+                                   Foreground="White"/>
+
+                        <TextBox x:Name="TargetInformationModelName_TextBox"
+                                 Grid.Row="1"
+                                 Grid.Column="1"
+                                 Text="{Binding TargetInformationModel.Name}"
+                                 TextChanged="TargetInformationModelName_TextBox_TextChanged"
+                                 GotFocus="TargetInformationModelName_TextBox_GotFocus"/>
+
+                        <TextBox x:Name="TargetInformationModelDirection_TextBox"
+                                 Grid.Row="2"
+                                 Grid.Column="1"
+                                 Text="{Binding TargetInformationModel.Direction}"
+                                 PreviewTextInput="TargetInformationModelDirection_TextBox_PreviewTextInput"
+                                 TextChanged="TargetInformationModelDirection_TextBox_TextChanged"
+                                 GotFocus="TargetInformationModelDirection_TextBox_GotFocus"/>
+
+                        <TextBox x:Name="TargetInformationModelDistance_TextBox"
+                                 Grid.Row="3"
+                                 Grid.Column="1"
+                                 Text="{Binding TargetInformationModel.Distance}"
+                                 PreviewTextInput="TargetInformationModelDistance_TextBox_PreviewTextInput"
+                                 TextChanged="TargetInformationModelDistance_TextBox_TextChanged"
+                                 GotFocus="TargetInformationModelDistance_TextBox_GotFocus"/>
+                    </Grid>
+            
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0"
+                                Content="Cancel"
+                                Width="100"
+                                Padding="10,3"
+                                Margin="0,10,5,0"
+                                Cursor="Hand"
+                                Command="{Binding TargetCommand}"
+                                CommandParameter="Cancel"/>
+                        
+                        <Button x:Name="AddTarget_Button"
+                                Grid.Column="1"
+                                Content="Add"
+                                Width="100"
+                                Padding="10,3"
+                                Margin="5,10,0,0"
+                                Cursor="Hand"
+                                Command="{Binding TargetCommand}"
+                                CommandParameter="Add"/>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
     <!-- ******************************************************************************************************** -->
 </Window>
