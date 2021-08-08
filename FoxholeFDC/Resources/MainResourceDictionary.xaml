@@ -5,6 +5,13 @@
     <ResourceDictionary.MergedDictionaries>
         <!-- Converters -->
         <ResourceDictionary Source="Converters/ConverterDictionary.xaml"/>
+
+        <!-- Icons -->
+        <ResourceDictionary Source="Icons/IconDictionary.xaml"/>
+
+        <!-- Styles -->
+        <ResourceDictionary Source="Styles/ScrollBar_Styles.xaml"/>
+        <ResourceDictionary Source="Styles/Button_Styles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <!-- ******************************************************************************************************** -->
 </ResourceDictionary>

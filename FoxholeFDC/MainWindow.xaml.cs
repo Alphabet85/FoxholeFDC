@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -196,6 +197,18 @@ namespace FoxholeFDC
         {
             TargetInformationModelDistance_TextBox.SelectionStart = 0;
             TargetInformationModelDistance_TextBox.SelectionLength = TargetInformationModelDistance_TextBox.Text.Length;
+        }
+
+        private void GitHub_HyperLink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
+        }
+
+        private void BuyMeACoffee_HyperLink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
         }
     }
 }

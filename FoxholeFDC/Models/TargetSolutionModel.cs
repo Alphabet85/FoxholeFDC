@@ -38,12 +38,12 @@ namespace FoxholeFDC.Models
             double _radsResult = 0;
 
             // Arty FP to Gun distance multiplied by cos
-            double _xForGun = _artilleryModel.FixedPointDistance * Math.Cos(ConvertDegreesToRadians(_artilleryModel.FixedPointDirection + 180)); // 20.47790365
-            double _yForGun = _artilleryModel.FixedPointDistance * Math.Sin(ConvertDegreesToRadians(_artilleryModel.FixedPointDirection + 180)); // -19.09595408
+            double _xForGun = _artilleryModel.FixedPointDistance * Math.Cos(ConvertDegreesToRadians(_artilleryModel.FixedPointDirection + 180));
+            double _yForGun = _artilleryModel.FixedPointDistance * Math.Sin(ConvertDegreesToRadians(_artilleryModel.FixedPointDirection + 180));
 
             // xyFOtoFP + xyFOtoTarget + xyWind
-            double _xSum = (_fOFPDistance * Math.Cos(ConvertDegreesToRadians(_fOFPDirection + 180))) + (_selectedTarget.Distance * Math.Cos(ConvertDegreesToRadians(_selectedTarget.Direction))) + 0; // -69.80489651
-            double _ySum = (_fOFPDistance * Math.Sin(ConvertDegreesToRadians(_fOFPDirection + 180))) + (_selectedTarget.Distance * Math.Sin(ConvertDegreesToRadians(_selectedTarget.Direction))) + 0; // 51.39729424
+            double _xSum = (_fOFPDistance * Math.Cos(ConvertDegreesToRadians(_fOFPDirection + 180))) + (_selectedTarget.Distance * Math.Cos(ConvertDegreesToRadians(_selectedTarget.Direction))) + 0;
+            double _ySum = (_fOFPDistance * Math.Sin(ConvertDegreesToRadians(_fOFPDirection + 180))) + (_selectedTarget.Distance * Math.Sin(ConvertDegreesToRadians(_selectedTarget.Direction))) + 0;
 
             double _gunToTargetX = _xForGun + _xSum;
             double _gunToTargetY = _yForGun + _ySum;
@@ -61,12 +61,12 @@ namespace FoxholeFDC.Models
         private int GetRoundedDistanceToTarget(ArtilleryModel _artilleryModel, TargetInformationModel _selectedTarget, double _fOFPDirection, double _fOFPDistance)
         {
             // Arty FP to Gun distance multiplied by cos
-            double _xForGun = _artilleryModel.FixedPointDistance * Math.Cos(ConvertDegreesToRadians(_artilleryModel.FixedPointDirection + 180)); // 20.47790365
-            double _yForGun = _artilleryModel.FixedPointDistance * Math.Sin(ConvertDegreesToRadians(_artilleryModel.FixedPointDirection + 180)); // -19.09595408
+            double _xForGun = _artilleryModel.FixedPointDistance * Math.Cos(ConvertDegreesToRadians(_artilleryModel.FixedPointDirection + 180));
+            double _yForGun = _artilleryModel.FixedPointDistance * Math.Sin(ConvertDegreesToRadians(_artilleryModel.FixedPointDirection + 180));
 
             // xyFOtoFP + xyFOtoTarget + xyWind
-            double _xSum = (_fOFPDistance * Math.Cos(ConvertDegreesToRadians(_fOFPDirection + 180))) + (_selectedTarget.Distance * Math.Cos(ConvertDegreesToRadians(_selectedTarget.Direction))) + 0; // -69.80489651
-            double _ySum = (_fOFPDistance * Math.Sin(ConvertDegreesToRadians(_fOFPDirection + 180))) + (_selectedTarget.Distance * Math.Sin(ConvertDegreesToRadians(_selectedTarget.Direction))) + 0; // 51.39729424
+            double _xSum = (_fOFPDistance * Math.Cos(ConvertDegreesToRadians(_fOFPDirection + 180))) + (_selectedTarget.Distance * Math.Cos(ConvertDegreesToRadians(_selectedTarget.Direction))) + 0;
+            double _ySum = (_fOFPDistance * Math.Sin(ConvertDegreesToRadians(_fOFPDirection + 180))) + (_selectedTarget.Distance * Math.Sin(ConvertDegreesToRadians(_selectedTarget.Direction))) + 0;
 
             double _gunToTargetX = _xForGun + _xSum;
             double _gunToTargetY = _yForGun + _ySum;

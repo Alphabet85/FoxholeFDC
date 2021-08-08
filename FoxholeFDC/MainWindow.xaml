@@ -6,7 +6,7 @@
         DataContext="{StaticResource MainWindowViewModel}"
         mc:Ignorable="d"
         Title="Foxhole FDC - By Alphabet" 
-        Height="550" MinHeight="550"
+        Height="700" MinHeight="700"
         Width="600"  MinWidth="600">
     <!-- ******************************************************************************************************** -->
     <!-- ******************************************************************************************************** -->
@@ -19,27 +19,46 @@
                 <RowDefinition/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+            <!-- Title Header -->
             <TextBlock Grid.Row="0"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top"
-                       Margin="0,5,0,0"
                        Text="Foxhole FDC"
                        Foreground="White"
+                       Margin="0,-10,0,10"
                        FontSize="30"
                        FontWeight="Bold"/>
             
+            <!-- Help Button -->
+            <Button Grid.Row="0"
+                    Style="{StaticResource Button_Help}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="0,-5,0,5"
+                    Height="20"
+                    Width="20"
+                    Command="{Binding HelpCommand}"/>
+
             <!-- Targets and Artillery -->
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="3*"/>
-                    <RowDefinition Height="7*"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
+                <!-- Forward Observer Information -->
                 <Grid Grid.Row="0"
                       FocusManager.FocusedElement="{Binding ElementName=FixedPointDirection_TextBox}">
-                    <Grid Margin="20">
+                    <Separator HorizontalAlignment="Stretch"
+                               VerticalAlignment="Top"/>
+
+                    <Separator HorizontalAlignment="Stretch"
+                               VerticalAlignment="Bottom"/>
+
+                    <Grid Margin="10,10,10,15"
+                          HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
@@ -47,35 +66,51 @@
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
                         <!-- Labels -->
                         <TextBlock Grid.Row="0"
-                                   Grid.Column="1"
-                                   Text="Direction (degrees)"
-                                   Foreground="White"/>
-
-                        <TextBlock Grid.Row="0"
-                                   Grid.Column="2"
-                                   Text="Distance (m)"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   HorizontalAlignment="Center"
+                                   FontSize="20"
+                                   Text="Forward Observer's Fixed Point"
                                    Foreground="White"/>
 
                         <TextBlock Grid.Row="1"
                                    Grid.Column="0"
-                                   Text="Forward Observer's Fixed Point"
+                                   HorizontalAlignment="Center"
+                                   Text="Direction (degrees)"
+                                   Foreground="White"/>
+
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="1"
+                                   HorizontalAlignment="Center"
+                                   Text="Distance (m)"
                                    Foreground="White"/>
 
                         <!-- TextBox Fields -->
                         <TextBox x:Name="FixedPointDirection_TextBox"
-                                 Grid.Row="1"
-                                 Grid.Column="1"
+                                 Grid.Row="2"
+                                 Grid.Column="0"
+                                 Width="100"
+                                 Padding="2"
+                                 FontSize="16"
+                                 FontWeight="Bold"
+                                 HorizontalContentAlignment="Center"
                                  Text="{Binding FixedPointDirection}"
                                  GotFocus="FixedPointDirection_TextBox_GotFocus"
                                  PreviewTextInput="FixedPointDirection_TextBox_PreviewTextInput"
                                  TextChanged="FixedPointDirection_TextBox_TextChanged"/>
 
                         <TextBox x:Name="FixedPointDistance_TextBox"
-                                 Grid.Row="1"
-                                 Grid.Column="2"
+                                 Grid.Row="2"
+                                 Grid.Column="1"
+                                 Width="100"
+                                 Padding="2"
+                                 FontSize="16"
+                                 FontWeight="Bold"
+                                 HorizontalContentAlignment="Center"
                                  Text="{Binding FixedPointDistance}"
                                  GotFocus="FixedPointDistance_TextBox_GotFocus"
                                  PreviewTextInput="FixedPointDistance_TextBox_PreviewTextInput"
@@ -89,15 +124,21 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox x:Name="Artillery_ListBox"
-                             Grid.Column="0"
-                             Background="#393532"
-                             Focusable="False"
-                             ItemsSource="{Binding ListOfArtillery}"
-                             HorizontalAlignment="Stretch"
-                             VerticalAlignment="Stretch"
-                             HorizontalContentAlignment="Stretch">
-                        <ListBox.Template>
+                    <Separator Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Bottom"/>
+
+                    <ItemsControl x:Name="Artillery_ItemsControl"
+                                  Grid.Column="0"
+                                  Margin="0,10,0,15"
+                                  Background="#393532"
+                                  Focusable="False"
+                                  ItemsSource="{Binding ListOfArtillery}"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Stretch">
+                        <ItemsControl.Template>
                             <ControlTemplate>
                                 <DockPanel LastChildFill="True">
                                     <Grid DockPanel.Dock="Top" Height="30">
@@ -107,21 +148,27 @@
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Column="0"
-                                               Text="Artillery Name"/>
+                                                   Foreground="White"
+                                                   Text="Artillery Name"/>
 
                                         <TextBlock Grid.Column="1"
-                                               Text="Direction to FP"/>
+                                                   Foreground="White"
+                                                   Text="Direction to FP"/>
 
                                         <TextBlock Grid.Column="2"
-                                               Text="Distance to FP"/>
+                                                   Foreground="White"
+                                                   Text="Distance to FP"/>
                                     </Grid>
 
-                                    <ItemsPresenter ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                                    <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                                                  VerticalScrollBarVisibility="Auto">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
                                 </DockPanel>
                             </ControlTemplate>
-                        </ListBox.Template>
+                        </ItemsControl.Template>
 
-                        <ListBox.ItemTemplate>
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -130,17 +177,20 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0"
-                                           Text="{Binding Name}"/>
+                                               Foreground="White"
+                                               Text="{Binding Name}"/>
 
                                     <TextBlock Grid.Column="1"
-                                           Text="{Binding FixedPointDirection}"/>
+                                               Foreground="White"
+                                               Text="{Binding FixedPointDirection}"/>
 
                                     <TextBlock Grid.Column="2"
-                                           Text="{Binding FixedPointDistance}"/>
+                                               Foreground="White"
+                                               Text="{Binding FixedPointDistance}"/>
                                 </Grid>
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
 
                     <StackPanel Grid.Column="1"
                                 HorizontalAlignment="Right"
@@ -173,10 +223,16 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
+                    <Separator Grid.Column="0"
+                               Grid.ColumnSpan="2"
+                               HorizontalAlignment="Stretch"
+                               VerticalAlignment="Bottom"/>
+
                     <ListBox x:Name="Targets_ListBox"
                              Grid.Column="0"
                              Background="#393532"
                              Focusable="False"
+                             Margin="0,10"
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Stretch"
                              SelectedItem="{Binding SelectedTarget}"
@@ -192,16 +248,22 @@
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Column="0"
-                                               Text="Target Name"/>
+                                                   Foreground="White"
+                                                   Text="Target Name"/>
 
                                         <TextBlock Grid.Column="1"
-                                               Text="Direction"/>
+                                                   Foreground="White"
+                                                   Text="Direction"/>
 
                                         <TextBlock Grid.Column="2"
-                                               Text="Distance"/>
+                                                   Foreground="White"
+                                                   Text="Distance"/>
                                     </Grid>
 
-                                    <ItemsPresenter/>
+                                    <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                                                  VerticalScrollBarVisibility="Auto">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
                                 </DockPanel>
                             </ControlTemplate>
                         </ListBox.Template>
@@ -215,13 +277,16 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0"
-                                           Text="{Binding Name}"/>
+                                               Foreground="White"
+                                               Text="{Binding Name}"/>
 
                                     <TextBlock Grid.Column="1"
-                                           Text="{Binding Direction}"/>
+                                               Foreground="White"
+                                               Text="{Binding Direction}"/>
 
                                     <TextBlock Grid.Column="2"
-                                           Text="{Binding Distance}"/>
+                                               Foreground="White"
+                                               Text="{Binding Distance}"/>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -249,34 +314,66 @@
                                 Command="{Binding DeleteTargetListCommand}"/>
                     </StackPanel>
                 </Grid>
-            </Grid>
 
-            <!-- Target Solutions -->
-            <Grid Grid.Row="2"
-                  Height="150">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+                <!-- Target Solutions -->
+                <Grid Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0"
-                           Text="Target Solutions"
-                           HorizontalAlignment="Center" 
-                           VerticalAlignment="Top"
-                           Margin="0,10,0,5"
-                           Foreground="White"
-                           FontSize="20"
-                           FontWeight="Bold"/>
+                    <TextBlock Grid.Row="0"
+                               Text="Target Solutions"
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Top"
+                               Margin="0,10,0,5"
+                               Foreground="White"
+                               FontSize="20"
+                               FontWeight="Bold"/>
 
-                <ListBox Grid.Row="1"
-                         Background="#393532"
-                         Focusable="False"
-                         ItemsSource="{Binding TargetSolutionList}"
-                         HorizontalContentAlignment="Stretch">
-                    <ListBox.Template>
-                        <ControlTemplate>
-                            <DockPanel LastChildFill="True">
-                                <Grid DockPanel.Dock="Top" Height="30">
+                    <ItemsControl Grid.Row="1"
+                                  Background="#393532"
+                                  Focusable="False"
+                                  ItemsSource="{Binding TargetSolutionList}"
+                                  HorizontalContentAlignment="Stretch">
+                        <ItemsControl.Template>
+                            <ControlTemplate>
+                                <DockPanel LastChildFill="True">
+                                    <Grid DockPanel.Dock="Top" Height="30">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0"
+                                                   Foreground="White"
+                                                   Text="Artillery Name"/>
+
+                                        <TextBlock Grid.Column="1"
+                                                   Foreground="White"
+                                                   Text="Target Name"/>
+
+                                        <TextBlock Grid.Column="2"
+                                                   Foreground="White"
+                                                   Text="Direction to Target"/>
+
+                                        <TextBlock Grid.Column="3"
+                                                   Foreground="White"
+                                                   Text="Distance to Target"/>
+                                    </Grid>
+
+                                    <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                                                  VerticalScrollBarVisibility="Auto">
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </DockPanel>
+                            </ControlTemplate>
+                        </ItemsControl.Template>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
@@ -284,47 +381,25 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0"
-                                               Text="Artillery Name"/>
-                                    
+                                               Foreground="White"
+                                               Text="{Binding ArtilleryName}"/>
+
                                     <TextBlock Grid.Column="1"
-                                               Text="Target Name"/>
-                                    
+                                               Foreground="White"
+                                               Text="{Binding ArtillerySolutionToTarget.Name}"/>
+
                                     <TextBlock Grid.Column="2"
-                                               Text="Direction to Target"/>
-                                    
+                                               Foreground="White"
+                                               Text="{Binding ArtillerySolutionToTarget.Direction}"/>
+
                                     <TextBlock Grid.Column="3"
-                                               Text="Distance to Target"/>
+                                               Foreground="White"
+                                               Text="{Binding ArtillerySolutionToTarget.Distance}"/>
                                 </Grid>
-                                
-                                <ItemsPresenter/>
-                            </DockPanel>
-                        </ControlTemplate>
-                    </ListBox.Template>
-                    
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0"
-                                           Text="{Binding ArtilleryName}"/>
-
-                                <TextBlock Grid.Column="1"
-                                           Text="{Binding ArtillerySolutionToTarget.Name}"/>
-
-                                <TextBlock Grid.Column="2"
-                                           Text="{Binding ArtillerySolutionToTarget.Direction}"/>
-
-                                <TextBlock Grid.Column="3"
-                                           Text="{Binding ArtillerySolutionToTarget.Distance}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
             </Grid>
         </Grid>
 
@@ -333,6 +408,8 @@
               Background="#B3000000">
             <Border HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    BorderThickness="1"
+                    BorderBrush="White"
                     Background="#393532">
                 <Grid Margin="20">
                     <Grid.RowDefinitions>
@@ -370,6 +447,7 @@
                         <TextBlock Grid.Row="2"
                                    Grid.Column="0"
                                    Text="FP Direction"
+                                   Margin="0,5"
                                    Foreground="White"/>
                 
                         <TextBlock Grid.Row="3"
@@ -381,13 +459,16 @@
                                  Grid.Row="1"
                                  Grid.Column="1"
                                  Text="{Binding ArtilleryModel.Name}"
+                                 Padding="3"
                                  TextChanged="ArtilleryModelName_TextBox_TextChanged"
                                  GotFocus="ArtilleryModelName_TextBox_GotFocus"/>
 
                         <TextBox x:Name="ArtilleryModelDirection_TextBox"
                                  Grid.Row="2"
                                  Grid.Column="1"
+                                 Margin="0,5"
                                  Text="{Binding ArtilleryModel.FixedPointDirection}"
+                                 Padding="3"
                                  PreviewTextInput="ArtilleryModelDirection_TextBox_PreviewTextInput"
                                  TextChanged="ArtilleryModelDirection_TextBox_TextChanged"
                                  GotFocus="ArtilleryModelDirection_TextBox_GotFocus"/>
@@ -396,6 +477,7 @@
                                  Grid.Row="3"
                                  Grid.Column="1"
                                  Text="{Binding ArtilleryModel.FixedPointDistance}"
+                                 Padding="3"
                                  PreviewTextInput="ArtilleryModelDistance_TextBox_PreviewTextInput"
                                  TextChanged="ArtilleryModelDistance_TextBox_TextChanged"
                                  GotFocus="ArtilleryModelDistance_TextBox_GotFocus"/>
@@ -435,6 +517,8 @@
               Background="#B3000000">
             <Border HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    BorderThickness="1"
+                    BorderBrush="White"
                     Background="#393532">
                 <Grid Margin="20">
                     <Grid.RowDefinitions>
@@ -471,6 +555,7 @@
 
                         <TextBlock Grid.Row="2"
                                    Grid.Column="0"
+                                   Margin="0,5"
                                    Text="Target Direction"
                                    Foreground="White"/>
 
@@ -483,13 +568,16 @@
                                  Grid.Row="1"
                                  Grid.Column="1"
                                  Text="{Binding TargetInformationModel.Name}"
+                                 Padding="3"
                                  TextChanged="TargetInformationModelName_TextBox_TextChanged"
                                  GotFocus="TargetInformationModelName_TextBox_GotFocus"/>
 
                         <TextBox x:Name="TargetInformationModelDirection_TextBox"
                                  Grid.Row="2"
                                  Grid.Column="1"
+                                 Margin="0,5"
                                  Text="{Binding TargetInformationModel.Direction}"
+                                 Padding="3"
                                  PreviewTextInput="TargetInformationModelDirection_TextBox_PreviewTextInput"
                                  TextChanged="TargetInformationModelDirection_TextBox_TextChanged"
                                  GotFocus="TargetInformationModelDirection_TextBox_GotFocus"/>
@@ -498,6 +586,7 @@
                                  Grid.Row="3"
                                  Grid.Column="1"
                                  Text="{Binding TargetInformationModel.Distance}"
+                                 Padding="3"
                                  PreviewTextInput="TargetInformationModelDistance_TextBox_PreviewTextInput"
                                  TextChanged="TargetInformationModelDistance_TextBox_TextChanged"
                                  GotFocus="TargetInformationModelDistance_TextBox_GotFocus"/>
@@ -529,6 +618,124 @@
                                 CommandParameter="Add"/>
                     </Grid>
                 </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Help Window -->
+        <Grid Visibility="{Binding IsHelpOpen, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}"
+              Background="#B3000000">
+            <Border HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    BorderThickness="1"
+                    BorderBrush="White"
+                    Background="#393532">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,0,0,6"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   TextWrapping="Wrap"
+                                   Text="Created by"
+                                   Foreground="White"/>
+                        
+                        <TextBlock Grid.Row="1"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,0,0,10"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   TextWrapping="Wrap"
+                                   Text="Jonathan &quot;Alphabet&quot; Arciaga"
+                                   Foreground="White"/>
+
+                        <Separator Grid.Row="1"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Bottom"/>
+
+                        <TextBlock Grid.Row="2"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,5,0,10"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   TextWrapping="Wrap"
+                                   Text="GitHub"
+                                   Foreground="White"/>
+
+                        <TextBlock Grid.Row="3"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,0,0,10"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="White">    
+                            <Hyperlink x:Name="GitHub_HyperLink"
+                                       NavigateUri="https://github.com/Alphabet85/FoxholeFDC"
+                                       RequestNavigate="GitHub_HyperLink_RequestNavigate">
+                                Click here
+                            </Hyperlink>
+                        </TextBlock>
+
+                        <Separator Grid.Row="3"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Bottom"/>
+
+                        <TextBlock Grid.Row="4"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,5,0,10"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   TextWrapping="Wrap"
+                                   Text="Buy Me a Coffee"
+                                   Foreground="White"/>
+
+                        <TextBlock Grid.Row="5"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   Margin="0,0,0,10"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   TextWrapping="Wrap"
+                                   Foreground="White">    
+                            <Hyperlink x:Name="BuyMeACoffee_HyperLink"
+                                       NavigateUri="https://www.buymeacoffee.com/Alphabet85"
+                                       RequestNavigate="BuyMeACoffee_HyperLink_RequestNavigate">
+                                Click here
+                            </Hyperlink>
+                        </TextBlock>
+
+                        <Separator Grid.Row="5"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Bottom"/>
+                    </Grid>
+
+                    <Button x:Name="CloseHelp_Button"
+                            Grid.Row="1"
+                            HorizontalAlignment="Center"
+                            Content="Close"
+                            Width="100"
+                            Padding="10,3"
+                            Margin="0,10,0,0"
+                            Cursor="Hand"
+                            Command="{Binding HelpCommand}"
+                            CommandParameter="Add"/>
+                    </Grid>
             </Border>
         </Grid>
     </Grid>

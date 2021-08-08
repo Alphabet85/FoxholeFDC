@@ -113,6 +113,17 @@ namespace FoxholeFDC
             }
         }
 
+        private bool _isHelpOpen;
+        public bool IsHelpOpen
+        {
+            get { return _isHelpOpen; }
+            set
+            {
+                _isHelpOpen = value;
+                OnPropertyChanged("IsHelpOpen");
+            }
+        }
+
         private TargetInformationModel _selectedTarget;
         public TargetInformationModel SelectedTarget
         {
@@ -210,6 +221,12 @@ namespace FoxholeFDC
             IsAddArtilleryOpen = !IsAddArtilleryOpen;
         }
 
+        private void Help()
+        {
+            Console.WriteLine("Help Pressed");
+            IsHelpOpen = !IsHelpOpen;
+        }
+
         #endregion
 
         #region " Commands "
@@ -295,6 +312,20 @@ namespace FoxholeFDC
                 }
 
                 return _artilleryCommand;
+            }
+        }
+
+        private ICommand _helpCommand;
+        public ICommand HelpCommand
+        {
+            get
+            {
+                if (_helpCommand == null)
+                {
+                    _helpCommand = new RelayCommand(P => true, p => Help());
+                }
+
+                return _helpCommand;
             }
         }
 
