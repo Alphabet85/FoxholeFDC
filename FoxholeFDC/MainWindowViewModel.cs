@@ -218,6 +218,15 @@ namespace FoxholeFDC
             }
 
             ArtilleryModel = null;
+
+            if (ListOfTargets.Count > 0)
+            {
+                if (SelectedTarget != null)
+                {
+                    PopulateTargetSolutions(SelectedTarget);
+                }
+            }
+
             IsAddArtilleryOpen = !IsAddArtilleryOpen;
         }
 
