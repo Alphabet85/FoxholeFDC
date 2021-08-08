@@ -4,7 +4,7 @@
 
     {
         public string Name { get; set; }
-        public decimal Direction { get; set; }
-        public decimal Distance { get; set; }
+        public int Direction { get; set; }
+        public int Distance { get; set; }
     }
 }

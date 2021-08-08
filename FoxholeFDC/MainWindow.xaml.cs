@@ -23,10 +23,11 @@ namespace FoxholeFDC
     {
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            CheckIfFieldsAreFilled();
         }
 
-        private static readonly Regex _regex = new Regex("[^0-9.-]+");
+        private static readonly Regex _regex = new Regex("[^0-9-]+");
         private static bool IsTextAllowed(string text)
         {
             return _regex.IsMatch(text);
@@ -69,11 +70,17 @@ namespace FoxholeFDC
             if (FixedPointDirection_TextBox.Text != "0" && !string.IsNullOrEmpty(FixedPointDirection_TextBox.Text) &&
                 FixedPointDistance_TextBox.Text != "0" && !string.IsNullOrEmpty(FixedPointDistance_TextBox.Text))
             {
-
+                AddArtilleryWindow_Button.IsEnabled = true;
+                DeleteArtilleryWindow_Button.IsEnabled = true;
+                AddTargetWindow_Button.IsEnabled = true;
+                DeleteTargetWindow_Button.IsEnabled = true;
             }
             else
             {
-
+                AddArtilleryWindow_Button.IsEnabled = false;
+                DeleteArtilleryWindow_Button.IsEnabled = false;
+                AddTargetWindow_Button.IsEnabled = false;
+                DeleteTargetWindow_Button.IsEnabled = false;
             }
         }
 

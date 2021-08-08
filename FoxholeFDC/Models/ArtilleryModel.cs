@@ -15,7 +15,7 @@ namespace FoxholeFDC.Models
         /// </summary>
         public ArtilleryModel()
         {
-            CalculatedTargetList = new List<TargetInformationModel>();
+
         }
 
         #endregion
@@ -23,9 +23,8 @@ namespace FoxholeFDC.Models
         #region " Properties "
 
         public string Name { get; set; }
-        public decimal FixedPointDirection { get; set; }
-        public decimal FixedPointDistance { get; set; }
-        public List<TargetInformationModel> CalculatedTargetList { get; set; }
+        public int FixedPointDirection { get; set; }
+        public int FixedPointDistance { get; set; }
 
         #endregion
 

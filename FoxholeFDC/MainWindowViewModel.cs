@@ -113,9 +113,46 @@ namespace FoxholeFDC
             }
         }
 
+        private TargetInformationModel _selectedTarget;
+        public TargetInformationModel SelectedTarget
+        {
+            get { return _selectedTarget; }
+            set 
+            {
+                _selectedTarget = value; 
+                PopulateTargetSolutions(_selectedTarget);
+                OnPropertyChanged("SelectedTarget");
+            }
+        }
+
+        private ObservableCollection<TargetSolutionModel> _targetSolutionList;
+        public ObservableCollection<TargetSolutionModel> TargetSolutionList
+        {
+            get { return _targetSolutionList; }
+            set 
+            { 
+                _targetSolutionList = value;
+                OnPropertyChanged("TargetSolutionList");
+            }
+        }
+
         #endregion
 
         #region " Methods "
+
+        private void PopulateTargetSolutions(TargetInformationModel _selectedTarget)
+        {
+            TargetSolutionList = new ObservableCollection<TargetSolutionModel>();
+
+            if (SelectedTarget != null)
+            {
+                foreach (ArtilleryModel arty in ListOfArtillery)
+                {
+                    TargetSolutionModel ts = new TargetSolutionModel(arty, _selectedTarget, Convert.ToInt32(FixedPointDirection), Convert.ToInt32(FixedPointDistance));
+                    TargetSolutionList.Add(ts);
+                }
+            }
+        }
 
         private void OpenAddTarget()
         {

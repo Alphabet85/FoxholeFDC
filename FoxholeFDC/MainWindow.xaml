@@ -6,7 +6,8 @@
         DataContext="{StaticResource MainWindowViewModel}"
         mc:Ignorable="d"
         Title="Foxhole FDC - By Alphabet" 
-        Height="450" Width="800">
+        Height="550" MinHeight="550"
+        Width="600"  MinWidth="600">
     <!-- ******************************************************************************************************** -->
     <!-- ******************************************************************************************************** -->
 
@@ -16,21 +17,23 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Top"
-                       Margin="0,10,0,0"
+                       Margin="0,5,0,0"
                        Text="Foxhole FDC"
                        Foreground="White"
-                       FontSize="20"
+                       FontSize="30"
                        FontWeight="Bold"/>
-
+            
+            <!-- Targets and Artillery -->
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="7*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0"
                       FocusManager.FocusedElement="{Binding ElementName=FixedPointDirection_TextBox}">
@@ -48,12 +51,12 @@
                         <!-- Labels -->
                         <TextBlock Grid.Row="0"
                                    Grid.Column="1"
-                                   Text="Direction"
+                                   Text="Direction (degrees)"
                                    Foreground="White"/>
 
                         <TextBlock Grid.Row="0"
                                    Grid.Column="2"
-                                   Text="Distance"
+                                   Text="Distance (m)"
                                    Foreground="White"/>
 
                         <TextBlock Grid.Row="1"
@@ -80,22 +83,70 @@
                     </Grid>
                 </Grid>
 
+                <!-- Artillery List -->
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox Grid.Column="0"
+                    <ListBox x:Name="Artillery_ListBox"
+                             Grid.Column="0"
                              Background="#393532"
                              Focusable="False"
                              ItemsSource="{Binding ListOfArtillery}"
                              HorizontalAlignment="Stretch"
-                             VerticalAlignment="Stretch"/>
+                             VerticalAlignment="Stretch"
+                             HorizontalContentAlignment="Stretch">
+                        <ListBox.Template>
+                            <ControlTemplate>
+                                <DockPanel LastChildFill="True">
+                                    <Grid DockPanel.Dock="Top" Height="30">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0"
+                                               Text="Artillery Name"/>
+
+                                        <TextBlock Grid.Column="1"
+                                               Text="Direction to FP"/>
+
+                                        <TextBlock Grid.Column="2"
+                                               Text="Distance to FP"/>
+                                    </Grid>
+
+                                    <ItemsPresenter ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                                </DockPanel>
+                            </ControlTemplate>
+                        </ListBox.Template>
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                           Text="{Binding Name}"/>
+
+                                    <TextBlock Grid.Column="1"
+                                           Text="{Binding FixedPointDirection}"/>
+
+                                    <TextBlock Grid.Column="2"
+                                           Text="{Binding FixedPointDistance}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
 
                     <StackPanel Grid.Column="1"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center">
-                        <Button Content="Add Artillery"
+                        <Button x:Name="AddArtilleryWindow_Button"
+                                Content="Add Artillery"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 Width="150"
@@ -105,7 +156,8 @@
                                 Focusable="False"
                                 Command="{Binding OpenAddArtilleryCommand}"/>
 
-                        <Button Content="Delete Artillery"
+                        <Button x:Name="DeleteArtilleryWindow_Button"
+                                Content="Delete Artillery"
                                 Width="150"
                                 Margin="10,0,0,0"
                                 Padding="10,3"
@@ -115,22 +167,71 @@
                     </StackPanel>
                 </Grid>
 
+                <!-- Target List -->
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ListBox Grid.Column="0"
+                    <ListBox x:Name="Targets_ListBox"
+                             Grid.Column="0"
                              Background="#393532"
                              Focusable="False"
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Stretch"
-                             ItemsSource="{Binding ListOfTargets}"/>
+                             SelectedItem="{Binding SelectedTarget}"
+                             ItemsSource="{Binding ListOfTargets}"
+                             HorizontalContentAlignment="Stretch">
+                        <ListBox.Template>
+                            <ControlTemplate>
+                                <DockPanel LastChildFill="True">
+                                    <Grid DockPanel.Dock="Top" Height="30">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0"
+                                               Text="Target Name"/>
+
+                                        <TextBlock Grid.Column="1"
+                                               Text="Direction"/>
+
+                                        <TextBlock Grid.Column="2"
+                                               Text="Distance"/>
+                                    </Grid>
+
+                                    <ItemsPresenter/>
+                                </DockPanel>
+                            </ControlTemplate>
+                        </ListBox.Template>
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                           Text="{Binding Name}"/>
+
+                                    <TextBlock Grid.Column="1"
+                                           Text="{Binding Direction}"/>
+
+                                    <TextBlock Grid.Column="2"
+                                           Text="{Binding Distance}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
 
                     <StackPanel Grid.Column="1"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center">
-                        <Button Content="Add Target"
+                        <Button x:Name="AddTargetWindow_Button"
+                                Content="Add Target"
                                 Width="150"
                                 Margin="10,0,0,0"
                                 Padding="10,3"
@@ -138,7 +239,8 @@
                                 Focusable="False"
                                 Command="{Binding OpenAddTargetCommand}"/>
 
-                        <Button Content="Delete Targets"
+                        <Button x:Name="DeleteTargetWindow_Button"
+                                Content="Delete Targets"
                                 Width="150"
                                 Margin="10,0,0,0"
                                 Padding="10,3"
@@ -147,6 +249,82 @@
                                 Command="{Binding DeleteTargetListCommand}"/>
                     </StackPanel>
                 </Grid>
+            </Grid>
+
+            <!-- Target Solutions -->
+            <Grid Grid.Row="2"
+                  Height="150">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Text="Target Solutions"
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Top"
+                           Margin="0,10,0,5"
+                           Foreground="White"
+                           FontSize="20"
+                           FontWeight="Bold"/>
+
+                <ListBox Grid.Row="1"
+                         Background="#393532"
+                         Focusable="False"
+                         ItemsSource="{Binding TargetSolutionList}"
+                         HorizontalContentAlignment="Stretch">
+                    <ListBox.Template>
+                        <ControlTemplate>
+                            <DockPanel LastChildFill="True">
+                                <Grid DockPanel.Dock="Top" Height="30">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                               Text="Artillery Name"/>
+                                    
+                                    <TextBlock Grid.Column="1"
+                                               Text="Target Name"/>
+                                    
+                                    <TextBlock Grid.Column="2"
+                                               Text="Direction to Target"/>
+                                    
+                                    <TextBlock Grid.Column="3"
+                                               Text="Distance to Target"/>
+                                </Grid>
+                                
+                                <ItemsPresenter/>
+                            </DockPanel>
+                        </ControlTemplate>
+                    </ListBox.Template>
+                    
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           Text="{Binding ArtilleryName}"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding ArtillerySolutionToTarget.Name}"/>
+
+                                <TextBlock Grid.Column="2"
+                                           Text="{Binding ArtillerySolutionToTarget.Direction}"/>
+
+                                <TextBlock Grid.Column="3"
+                                           Text="{Binding ArtillerySolutionToTarget.Distance}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
         </Grid>
 
@@ -234,6 +412,7 @@
                                 Padding="10,3"
                                 Margin="0,10,5,0"
                                 Cursor="Hand"
+                                Focusable="False"
                                 Command="{Binding ArtilleryCommand}"
                                 CommandParameter="Cancel"/>
 
@@ -284,7 +463,7 @@
                                    FontWeight="Bold"
                                    Text="Add Target"
                                    Foreground="White"/>
-                        
+
                         <TextBlock Grid.Row="1"
                                    Grid.Column="0"
                                    Text="Name"
@@ -292,12 +471,12 @@
 
                         <TextBlock Grid.Row="2"
                                    Grid.Column="0"
-                                   Text="FP Direction"
+                                   Text="Target Direction"
                                    Foreground="White"/>
 
                         <TextBlock Grid.Row="3"
                                    Grid.Column="0"
-                                   Text="FP Distance"
+                                   Text="Target Distance"
                                    Foreground="White"/>
 
                         <TextBox x:Name="TargetInformationModelName_TextBox"
@@ -323,7 +502,7 @@
                                  TextChanged="TargetInformationModelDistance_TextBox_TextChanged"
                                  GotFocus="TargetInformationModelDistance_TextBox_GotFocus"/>
                     </Grid>
-            
+
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -335,9 +514,10 @@
                                 Padding="10,3"
                                 Margin="0,10,5,0"
                                 Cursor="Hand"
+                                Focusable="False"
                                 Command="{Binding TargetCommand}"
                                 CommandParameter="Cancel"/>
-                        
+
                         <Button x:Name="AddTarget_Button"
                                 Grid.Column="1"
                                 Content="Add"
