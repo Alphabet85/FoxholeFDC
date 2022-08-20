@@ -3,7 +3,8 @@
     public class TargetInformationModel
 
     {
-        public string Name { get; set; }
+        public ArtilleryModel Artillery { get; set; }
+        public TargetInformationModel TargetInformation { get; set; }
         public int Direction { get; set; }
         public int Distance { get; set; }
     }

@@ -12,11 +12,10 @@ namespace FoxholeFDC.Models
 
         public TargetSolutionModel(ArtilleryModel _artilleryModel, TargetInformationModel _selectedTarget, double _fOFPDirection, double _fOFPDistance)
         {
-            ArtilleryName = _artilleryModel.Name;
-
             ArtillerySolutionToTarget = new TargetInformationModel
             {
-                Name = _selectedTarget.Name,
+                Artillery = _artilleryModel,
+                TargetInformation = _selectedTarget,
                 Direction = GetRoundedDirectionToTarget(_artilleryModel, _selectedTarget, _fOFPDirection, _fOFPDistance),
                 Distance = GetRoundedDistanceToTarget(_artilleryModel, _selectedTarget, _fOFPDirection, _fOFPDistance)
             };
@@ -26,12 +25,17 @@ namespace FoxholeFDC.Models
 
         #region " Properties "
 
-        public string ArtilleryName { get; set; }
         public TargetInformationModel ArtillerySolutionToTarget { get; set; }
 
         #endregion
 
         #region " Methods "
+
+        public void UpdateTargetSolutions(double _fOFPDirection, double _fOFPDistance)
+        {
+            ArtillerySolutionToTarget.Direction = GetRoundedDirectionToTarget(ArtillerySolutionToTarget.Artillery, ArtillerySolutionToTarget.TargetInformation, _fOFPDirection, _fOFPDistance);
+            ArtillerySolutionToTarget.Distance = GetRoundedDistanceToTarget(ArtillerySolutionToTarget.Artillery, ArtillerySolutionToTarget.TargetInformation, _fOFPDirection, _fOFPDistance);
+        }
 
         private int GetRoundedDirectionToTarget(ArtilleryModel _artilleryModel, TargetInformationModel _selectedTarget, double _fOFPDirection, double _fOFPDistance)
         {

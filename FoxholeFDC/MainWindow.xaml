@@ -383,7 +383,7 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0"
                                                Foreground="White"
-                                               Text="{Binding ArtilleryName}"/>
+                                               Text="{Binding ArtillerySolutionToTarget.Artillery.Name}"/>
 
                                     <TextBlock Grid.Column="1"
                                                Foreground="White"
