@@ -15,10 +15,10 @@ namespace FoxholeFDC.Models
             ArtillerySolutionToTarget = new TargetInformationModel
             {
                 Artillery = _artilleryModel,
-                TargetInformation = _selectedTarget,
-                Direction = GetRoundedDirectionToTarget(_artilleryModel, _selectedTarget, _fOFPDirection, _fOFPDistance),
-                Distance = GetRoundedDistanceToTarget(_artilleryModel, _selectedTarget, _fOFPDirection, _fOFPDistance)
+                Name = _selectedTarget.Name
             };
+
+            UpdateTargetSolutions(_fOFPDirection, _fOFPDistance);
         }
 
         #endregion
@@ -33,17 +33,17 @@ namespace FoxholeFDC.Models
 
         public void UpdateTargetSolutions(double _fOFPDirection, double _fOFPDistance)
         {
-            ArtillerySolutionToTarget.Direction = GetRoundedDirectionToTarget(ArtillerySolutionToTarget.Artillery, ArtillerySolutionToTarget.TargetInformation, _fOFPDirection, _fOFPDistance);
-            ArtillerySolutionToTarget.Distance = GetRoundedDistanceToTarget(ArtillerySolutionToTarget.Artillery, ArtillerySolutionToTarget.TargetInformation, _fOFPDirection, _fOFPDistance);
+            ArtillerySolutionToTarget.Direction = GetRoundedDirectionToTarget(ArtillerySolutionToTarget, _fOFPDirection, _fOFPDistance);
+            ArtillerySolutionToTarget.Distance = GetRoundedDistanceToTarget(ArtillerySolutionToTarget, _fOFPDirection, _fOFPDistance);
         }
 
-        private int GetRoundedDirectionToTarget(ArtilleryModel _artilleryModel, TargetInformationModel _selectedTarget, double _fOFPDirection, double _fOFPDistance)
+        private int GetRoundedDirectionToTarget(TargetInformationModel _selectedTarget, double _fOFPDirection, double _fOFPDistance)
         {
             double _radsResult = 0;
 
             // Arty FP to Gun distance multiplied by cos
-            double _xForGun = _artilleryModel.FixedPointDistance * Math.Cos(ConvertDegreesToRadians(_artilleryModel.FixedPointDirection + 180));
-            double _yForGun = _artilleryModel.FixedPointDistance * Math.Sin(ConvertDegreesToRadians(_artilleryModel.FixedPointDirection + 180));
+            double _xForGun = ArtillerySolutionToTarget.Artillery.FixedPointDistance * Math.Cos(ConvertDegreesToRadians(ArtillerySolutionToTarget.Artillery.FixedPointDirection + 180));
+            double _yForGun = ArtillerySolutionToTarget.Artillery.FixedPointDistance * Math.Sin(ConvertDegreesToRadians(ArtillerySolutionToTarget.Artillery.FixedPointDirection + 180));
 
             // xyFOtoFP + xyFOtoTarget + xyWind
             double _xSum = (_fOFPDistance * Math.Cos(ConvertDegreesToRadians(_fOFPDirection + 180))) + (_selectedTarget.Distance * Math.Cos(ConvertDegreesToRadians(_selectedTarget.Direction))) + 0;
@@ -62,11 +62,11 @@ namespace FoxholeFDC.Models
             return (int)Math.Round(ConvertRadiansToDegrees(_rads) + _radsResult);
         }
 
-        private int GetRoundedDistanceToTarget(ArtilleryModel _artilleryModel, TargetInformationModel _selectedTarget, double _fOFPDirection, double _fOFPDistance)
+        private int GetRoundedDistanceToTarget(TargetInformationModel _selectedTarget, double _fOFPDirection, double _fOFPDistance)
         {
             // Arty FP to Gun distance multiplied by cos
-            double _xForGun = _artilleryModel.FixedPointDistance * Math.Cos(ConvertDegreesToRadians(_artilleryModel.FixedPointDirection + 180));
-            double _yForGun = _artilleryModel.FixedPointDistance * Math.Sin(ConvertDegreesToRadians(_artilleryModel.FixedPointDirection + 180));
+            double _xForGun = ArtillerySolutionToTarget.Artillery.FixedPointDistance * Math.Cos(ConvertDegreesToRadians(ArtillerySolutionToTarget.Artillery.FixedPointDirection + 180));
+            double _yForGun = ArtillerySolutionToTarget.Artillery.FixedPointDistance * Math.Sin(ConvertDegreesToRadians(ArtillerySolutionToTarget.Artillery.FixedPointDirection + 180));
 
             // xyFOtoFP + xyFOtoTarget + xyWind
             double _xSum = (_fOFPDistance * Math.Cos(ConvertDegreesToRadians(_fOFPDirection + 180))) + (_selectedTarget.Distance * Math.Cos(ConvertDegreesToRadians(_selectedTarget.Direction))) + 0;
