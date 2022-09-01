@@ -1,9 +1,9 @@
-# FoxholeFDC
+# Foxhole FDC
 
 Foxhole FDC made by Jonathan 'Alphabet' Arciaga
 
 
-Used to calculate a target direction and azimuth using a artillery piece, fixed point, and forward observer.
+Used to calculate a target azimuth for an artillery piece while using a known fixed point, and a forward observer.
 
 1 - Enter Forward Observer fixed point first.  The fixed position is the know position from the FO; distance and direction
 
